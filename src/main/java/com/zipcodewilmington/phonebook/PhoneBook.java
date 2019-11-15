@@ -1,45 +1,72 @@
 package com.zipcodewilmington.phonebook;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 /**
  * Created by leon on 1/23/18.
  */
 public class PhoneBook {
-    public PhoneBook(Map<String, List<String>> map) {
+
+    private LinkedHashMap<String, List<String>> phoneBook;
+    private String name;
+    private String phoneNumber;
+    private List<String> numList = new ArrayList<>();
+
+
+    public PhoneBook(LinkedHashMap<String, List<String>> map) {
+        this.phoneBook = map;
     }
 
     public PhoneBook() {
-        this(null);
+        this.phoneBook = new LinkedHashMap<String, List<String>>(0);
     }
 
     public void add(String name, String phoneNumber) {
+        numList.add(phoneNumber);
+        phoneBook.put(name, numList);
     }
 
     public void addAll(String name, String... phoneNumbers) {
+        for (String num : phoneNumbers) {
+            numList.add(num);
+        }
+        phoneBook.put(name, numList);
+
     }
 
     public void remove(String name) {
+        phoneBook.remove(name);
     }
 
     public Boolean hasEntry(String name) {
-        return null;
+        return phoneBook.containsKey(name);
     }
 
     public List<String> lookup(String name) {
-        return null;
+        return phoneBook.get(name);
     }
 
     public String reverseLookup(String phoneNumber)  {
-        return null;
+        for(String key : phoneBook.keySet()){
+            for (String num : phoneBook.get(key)){
+                if (num.equals(phoneNumber)){
+                    return key;
+                }
+            }
+        }
+        return "Not in phone book";
     }
 
     public List<String> getAllContactNames() {
-        return null;
+        List<String> listOfNames = new ArrayList<>();
+        for(String name : phoneBook.keySet()){
+            listOfNames.add(name);
+        }
+        return listOfNames;
     }
 
     public Map<String, List<String>> getMap() {
-        return null;
+        return phoneBook;
     }
 }
